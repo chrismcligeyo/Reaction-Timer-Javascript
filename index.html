@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Reaction Timer</title>
+    
+    <style type="text/css">
+
+    body {
+        font-family: sans-serif;
+    }
+   
+    #dynamicShape {
+        width:200px;
+        height:200px;
+        background-color:green;
+        display:none;
+        position:relative;
+    }
+
+    .bold {
+        font-weight: bold;
+    }
+    
+    </style>
+</head>
+<body>
+    <h1>Test your Reactions</h1>
+    <p>Click on the boxes and Circles as quickly as you can</p>
+    <p class="bold">Your Time: <span id="timeTaken"></span></p>
+    <div id="dynamicShape"></div>
+
+    <script type="text/javascript">
+    //function to get random color
+    
+
+    let start = new Date().getTime(); //get time in milliseconds before pageloads
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+        }
+
+
+    function makeShapeAppear(){
+
+        let marginTop = Math.random()*400;
+        let marginLeft = Math.random()*700;
+        let width = (Math.random()*300) + 100;// gives number between 100 and 300.
+
+        
+        document.querySelector("#dynamicShape").style.marginTop = `${marginTop}px`;
+        document.querySelector("#dynamicShape").style.marginLeft =  `${marginLeft}px`;
+        document.querySelector("#dynamicShape").style.width = `${width}px`;
+        document.querySelector("#dynamicShape").style.height = `${width}px`;
+        document.querySelector('#dynamicShape').style.backgroundColor = getRandomColor();
+
+        //make shape circle half of the time
+        if(Math.random() < 0.5){
+            document.querySelector("#dynamicShape").style.borderRadius = "50%";
+
+        } else {
+             document.querySelector("#dynamicShape").style.borderRadius = "0%";
+        }
+        
+
+
+
+        document.querySelector("#dynamicShape").style.display = "block";
+        start = new Date().getTime();
+    }
+    
+    function appear(){
+        setTimeout(makeShapeAppear, Math.random()*2000); //make sahpe appear after random number of seconds between 0 and 2000
+    }
+    
+    appear();
+    
+    document.querySelector("#dynamicShape").addEventListener("click", function(){
+        document.querySelector("#dynamicShape").style.display = "none";
+
+
+        let end = new Date().getTime(); //time in miliseconds after click event occeurs
+        let timeTaken = (end - start) / 1000; //change milliseconds to seconds. This is the time taken for click function to occur
+        document.querySelector("#timeTaken").innerHTML = `${timeTaken} s`;
+        appear();
+    });
+
+    
+    
+    </script>
+</body>
+</html>
